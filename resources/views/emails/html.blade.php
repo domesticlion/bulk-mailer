@@ -1,0 +1,1 @@
+<?= !empty($data->htmlBody) ? $data->htmlBody : null ?>
