@@ -51,7 +51,8 @@ class SendBulkEmailCommand extends Command
                         $data = json_decode($message['Body']);
                         if (!empty($data->from) && !empty($data->to)) {
                             ProcessedQueue::create(['queue_id' => $message['MessageId']]);
-                            Mail::send(['emails.html', 'emails.text'], ['data' => $data], function ($m) use ($data) {
+                            $type = !empty($data->htmlBody) ? ['emails.html', 'emails.text'] : ['text' => 'emails.text'];
+                            Mail::send($type, ['data' => $data], function ($m) use ($data) {
                                 $m->from($data->from, (!empty($data->from_name) ? $data->from_name : null))
                                     ->to($data->to, (!empty($data->to_name) ? $data->to_name : null))
                                     ->subject(!empty($data->subject) ? $data->subject : null);
