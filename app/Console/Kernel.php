@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\SendBulkEmailCommand::class,
+        \App\Console\Commands\DeleteProcessedQueuesCommand::class
     ];
 
     /**
@@ -29,5 +30,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('send_bulk_email')
                 ->everyMinute();
         }
+
+        $schedule->command('delete_processed_queues')
+            ->timezone('Asia/Tokyo')->daily();
     }
 }
